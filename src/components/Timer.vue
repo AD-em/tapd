@@ -64,7 +64,7 @@ export default {
     },
     end: {
       type: String,
-      default: "2021-12-28T22:40:00.000Z",
+      default: "2022-01-15T22:40:00.000Z",
     },
   },
   data: () => {
