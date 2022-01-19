@@ -24,16 +24,17 @@
           <h5>Expected Duration</h5>
           <p>{{ estimatedEndDuration }}</p>
         </v-col>
+        <v-divider vertical></v-divider>
         <v-col>
           <h5>Actual Duration</h5>
           <p>{{ actualEndDuration }}</p>
         </v-col>
+        <v-divider vertical></v-divider>
         <v-col>
           <h5>Over-estimation Factor</h5>
-          <p>
-            {{ overestimationFactor }} -> 1
-          </p>
+          <p>{{ overestimationFactor }} -> 1</p>
         </v-col>
+        <v-divider vertical></v-divider>
         <v-col>
           <h5>Break Duration</h5>
           <p>{{ breakDuration }}</p>

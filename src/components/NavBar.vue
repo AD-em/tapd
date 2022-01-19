@@ -18,22 +18,29 @@
       </v-btn>
     </router-link>
     <v-spacer></v-spacer>
-
-    <!-- Authentication
-    <v-btn outlined class="lime lighten-1 indigo--text">
+    <v-btn outlined class="lime lighten-1 indigo--text" @click="signin()">
       <span class="mr-2">Sign in</span>
-    </v-btn
-      ><v-btn text class="lime--text text--lighten-1">
+    </v-btn>
+
+    <!-- Authentication<v-btn text class="lime--text text--lighten-1">
         <span class="mr-2">Sign up</span> -->
   </v-app-bar>
 </template>
 <script>
 import TaskService from '@/services/TaskService.js';
 export default {
-  created() {
-    TaskService.signin()
-      .then((res) => console.log(`signed in as: ${res.data.data.signin.email}`))
-      .catch((err) => console.error(err));
+  methods: {
+    signin() {
+      TaskService.signin()
+        .then((res) => {
+          if (res.data.data) this.$store.state.user = res.data.data.signin;
+          // throw new Error(
+          else console.debug(res.data.errors);
+          // [0].message.message);
+          console.dir(this.$store.state.user.email);
+        })
+        .catch((err) => console.error(err));
+    }
   }
 };
 </script>
