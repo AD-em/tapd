@@ -4,7 +4,7 @@ const AxiosService = axios.create({
   // baseURL: 'http://localhost:/graphql',
   baseURL:
     process.env.NODE_ENV === 'production'
-      ? process.env.HOSTNAME
+      ? `${process.env.HOSTNAME}/graphql`
       : 'http://localhost:3000/graphql',
   withCredentials: true,
   headers: {
