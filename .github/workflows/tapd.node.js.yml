@@ -16,7 +16,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: cd server && ls -l prisma
       #- run: prisma db push --schema prisma/schema.prisma
-      - run: prisma generate --schema prisma/schema.prisma
+      #- run: prisma generate --schema prisma/schema.prisma
+      - run: npm run db:push 
       - run: npm i
       - run: cd ../client
       - run: npm i
