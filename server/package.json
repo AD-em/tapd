@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon src/app.js",
     "serve": "node src/app.js",
-    "db:push": "prisma db push"
+    "db:push": "prisma db push",
+    "db:generate": "prisma generate"
   },
   "repository": {
     "type": "git",
