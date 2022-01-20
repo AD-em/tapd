@@ -18,7 +18,8 @@ jobs:
       #- run: prisma generate --schema prisma/schema.prisma
       - run: |
           cd server
-          echo "NODE_ENV=${{ secrets.NODE_ENV }}" >> .env
+          echo "NODE_ENV=${{ secrets.NODE_ENV }}" > .env
+          echo "HOSTNAME=${{ secrets.HOSTNAME }}" >> .env
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
           npm i
           cd ../client

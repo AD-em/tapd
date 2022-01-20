@@ -1,7 +1,11 @@
 import axios from 'axios';
 
 const AxiosService = axios.create({
-  baseURL: 'http://localhost:3000/graphql',
+  // baseURL: 'http://localhost:/graphql',
+  baseURL:
+    process.env.NODE_ENV === 'production'
+      ? process.env.HOSTNAME
+      : 'http://localhost:3000/graphql',
   withCredentials: true,
   headers: {
     Accept: 'application/json',
@@ -50,8 +54,8 @@ export default {
       query: `mutation {
             signin(
                 signInParams: { 
-                    email: "dev@", 
-                    password: "111" 
+                    email: "adem", 
+                    password: "*" 
                 }) {
                         id
                         email
