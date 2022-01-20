@@ -14,7 +14,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: cd server && pwd && ls && ls prisma
+      - run: cd server && ls -l prisma
       - run: prisma db push --schema prisma/schema.prisma
       - run: prisma generate --schema prisma/schema.prisma
       - run: npm i
