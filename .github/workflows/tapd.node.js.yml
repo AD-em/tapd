@@ -18,12 +18,13 @@ jobs:
       #- run: prisma generate --schema prisma/schema.prisma
       - run: |
           cd server
+          echo "NODE_ENV=${{ secrets.NODE_ENV }}" >> .env
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
           npm i
           cd ../client
           npm i
           npm run build
           cd ../server
-          echo "NODE_ENV=${{ secrets.NODE_ENV }}" >> .env
           npm run db:push
           cd ../
           pm2 restart 0
