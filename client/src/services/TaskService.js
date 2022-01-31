@@ -1,21 +1,21 @@
-import axios from 'axios';
+import axios from "axios";
 
 const AxiosService = axios.create({
   // baseURL: 'http://localhost:/graphql',
   baseURL:
-    process.env.NODE_ENV === 'production'
+    process.env.NODE_ENV === "production"
       ? `${process.env.HOSTNAME}/graphql`
-      : 'http://localhost:3000/graphql',
+      : "http://localhost:3000/graphql",
   withCredentials: true,
   headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json'
-  }
+    Accept: "application/json",
+    "Content-Type": "application/json",
+  },
 });
 
 export default {
   getTasks() {
-    return AxiosService.post('/', {
+    return AxiosService.post("/", {
       query: `{
                 getAllTasks {
                     id
@@ -28,11 +28,11 @@ export default {
                     actualEndTime
                     breakEndTime
                 }
-            }`
+            }`,
     });
   },
   getTask(id) {
-    return AxiosService.post('/', {
+    return AxiosService.post("/", {
       query: `query GetTask($id: ID){
                 getTask(id: $id) {
                     id
@@ -46,25 +46,28 @@ export default {
                     breakEndTime
                 }
             }`,
-      variables: { id: Number(id) }
+      variables: { id: Number(id) },
     });
   },
-  signin() {
-    return AxiosService.post('/', {
-      query: `mutation {
-            signin(
-                signInParams: { 
-                    email: "adem", 
-                    password: "*" 
-                }) {
-                        id
-                        email
-              }
-          }`
+  signin(email, password) {
+    return AxiosService.post("/", {
+      query: `mutation signin(
+        $email: String!, 
+        $password: String!
+        ) {
+        signin(signInParams: { email: $email, password: $password }) {
+          id
+          email
+        }
+      }`,
+      variables: {
+        email,
+        password,
+      },
     });
   },
   saveTask(task) {
-    return AxiosService.post('/', {
+    return AxiosService.post("/", {
       query: `mutation CreateTask(
                 $title: String!
                 $description: String!
@@ -90,8 +93,8 @@ export default {
                 }`,
       variables: {
         ...task,
-        durationInMinutes: parseInt(task.durationInMinutes)
-      }
+        durationInMinutes: parseInt(task.durationInMinutes),
+      },
     });
-  }
+  },
 };
