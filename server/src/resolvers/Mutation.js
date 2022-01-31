@@ -75,7 +75,7 @@ function signout(_parent, args, { req }) {
   if (!getUserId(req)) return;
   return new Promise((resolve) => {
     req.session.destroy((error) =>
-      error ? console.error('Logout error ' + error) : resolve(true)
+      error ? console.error('Signout error ' + error) : resolve(true)
     );
   });
 }

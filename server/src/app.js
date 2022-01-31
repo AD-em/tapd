@@ -1,5 +1,5 @@
 const { PrismaClient } = require('@prisma/client');
-
+const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
 const {
   ApolloServer,
   AuthenticationError,
@@ -7,6 +7,7 @@ const {
   ForbiddenError
 } = require('apollo-server-express');
 const {
+  ApolloServerPluginLandingPageDisabled,
   ApolloServerPluginLandingPageGraphQLPlayground
 } = require('apollo-server-core');
 
@@ -56,10 +57,14 @@ async function startApolloServer() {
       resave: false,
       saveUninitialized: false,
       cookie: {
-        httpOnly: false,
         secure: process.env.NODE_ENV === 'production',
         maxAge: 4.32e7 // 12 hours
-      }
+      },
+      store: new PrismaSessionStore(prisma, {
+        checkPeriod: 2 * 60 * 1000, //ms
+        dbRecordIdIsSessionId: true,
+        dbRecordIdFunction: undefined
+      })
     })
   );
 
@@ -91,9 +96,15 @@ async function startApolloServer() {
   server.applyMiddleware({ app, cors: corsOptions });
 
   /** start server and listen for connections using the express application */
-  await new Promise((resolve) => app.listen({ port: 3000 }, resolve));
+  await new Promise((resolve) =>
+    app.listen({ port: process.env.PORT || 3500 }, resolve)
+  );
 
-  console.log(`🚀 Server ready at http://localhost:3000${server.graphqlPath}`);
+  console.log(
+    `🚀 Server ready at http://localhost:${process.env.PORT || 3500}${
+      server.graphqlPath
+    }`
+  );
 
   return { server, app };
 }
