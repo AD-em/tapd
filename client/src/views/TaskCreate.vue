@@ -69,6 +69,7 @@ export default {
         //     params: { id: tasks[tasks.length].id, task: tasks[tasks.length] }
         //   });
           this.createFreshTaskObject();
+          this.$router.push({ name: "task-list" });
         })
         .catch((error) => {
           console.log('There was a problem creating your task.');
