@@ -1,9 +1,9 @@
 <template>
-  <v-card color="amber" outlined tile max-width="400" class="mx-auto">
+  <v-card color="lime lighten-1 indigo--text rounded-xl rounded-t-0" outlined tile class="mx-auto">
     <v-card-title class="mx-auto text-64">
       <h1 class="indigo--text">{{ hours }} : {{ minutes }} : {{ seconds }}</h1>
       <h3 class="ml-3">{{ time }}</h3>
-      <v-spacer></v-spacer>
+      <!-- <v-spacer></v-spacer>
       <v-dialog ref="dialog" v-model="modal" persistent width="290px">
         <template v-slot:activator="{ on, attrs }">
           <v-text-field
@@ -31,21 +31,29 @@
           </v-btn>
           <v-btn text color="grey darken-3" @click="saveTime"> OK </v-btn>
         </v-time-picker>
-      </v-dialog>
+      </v-dialog> -->
     </v-card-title>
     <v-divider></v-divider>
     <v-card-actions>
-      <v-btn icon color="indigo">
+      <v-btn icon color="indigo" @click="startWork" :disabled="disablePlay">
         <v-icon>mdi-{{ playbackIcon }}</v-icon>
       </v-btn>
       <v-spacer></v-spacer>
-      <v-btn icon>
+      <v-btn icon @click="stopWork">
         <v-icon>mdi-stop</v-icon>
       </v-btn>
       <v-spacer></v-spacer>
-      <v-btn icon>
+      <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
+      <v-spacer></v-spacer> 
+      <!-- <v-btn icon>
         <v-icon>mdi-restart</v-icon>
-      </v-btn>
+      </v-btn> -->
     </v-card-actions>
   </v-card>
 </template>
@@ -62,15 +70,16 @@ export default {
       type: String,
       default: new Date().toISOString(),
     },
-    end: {
-      type: String,
-      default: "2022-01-15T22:40:00.000Z",
-    },
+    task: {
+      type: Object
+    }
   },
   data: () => {
     return {
+      end: "2022-01-15T22:40:00.000Z",
       interval: null,
       playbackIcon: "play",
+      disablePlay: false,
       time: null,
       menu: false,
       modal: false,
@@ -78,9 +87,6 @@ export default {
       minutes: null,
       seconds: null,
     };
-  },
-  created() {
-    this.clock();
   },
   methods: {
     moment,
@@ -90,11 +96,13 @@ export default {
     clock() {
       this.interval = setInterval(() => {
         const diff =
-          new Date(this.end).getTime() - 10800000 - new Date().getTime();
+          new Date(this.end).getTime() 
+          // - 10800000 
+          - new Date().getTime();
 
-        this.hours = Math.floor((diff % 86400000) / 3600000);
-        this.minutes = Math.floor((diff % 3600000) / 60000);
-        this.seconds = Math.floor((diff % 60000) / 1000);
+        this.hours = Math.floor((diff % 8.64e+7) / 3.6e+6);
+        this.minutes = Math.floor((diff % 3.6e+6) / 6e+4);
+        this.seconds = Math.floor((diff % 6e+4) / 1000);
 
         this.hours = this.hours < 10 ? `0${this.hours}` : this.hours;
         this.minutes = this.minutes < 10 ? `0${this.minutes}` : this.minutes;
@@ -109,10 +117,18 @@ export default {
           this.seconds = "00";
 
           clearInterval(this.interval);
-          console.log("time ends");
         }
       }, 1000);
     },
+    startWork(){
+      const startTime = new Date();
+      this.end = moment(startTime).add(this.task.durationInMinutes, 'minutes')
+      this.clock();
+    },
+    stopWork(){
+      clearInterval(this.interval)
+      this.disablePlay = true;
+    }
   },
 };
 </script>
