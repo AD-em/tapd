@@ -1,11 +1,10 @@
 import axios from "axios";
 
 const AxiosService = axios.create({
-  // baseURL: 'http://localhost:/graphql',
   baseURL:
     process.env.NODE_ENV === "production"
       ? `${process.env.HOSTNAME}/graphql`
-      : "http://localhost:3000/graphql",
+      : "http://localhost:1881/graphql",
   withCredentials: true,
   headers: {
     Accept: "application/json",
@@ -24,6 +23,7 @@ export default {
                     description
                     done
                     startTime
+                    durationInMinutes
                     estimatedEndTime
                     actualEndTime
                     breakEndTime
@@ -41,6 +41,7 @@ export default {
                     description
                     done
                     startTime
+                    durationInMinutes
                     estimatedEndTime
                     actualEndTime
                     breakEndTime
@@ -65,6 +66,11 @@ export default {
         password,
       },
     });
+  },
+  signout(){
+    return AxiosService.post('/' ,{
+      query: `mutation { signout }`
+    })
   },
   saveTask(task) {
     return AxiosService.post("/", {
