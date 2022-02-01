@@ -18,8 +18,8 @@
       </v-btn>
     </router-link>
     <v-spacer></v-spacer>
-    <v-btn outlined class="lime lighten-1 indigo--text" @click="signin()">
-      <span class="mr-2">Sign in</span>
+    <v-btn outlined class="lime lighten-1 indigo--text" @click="signout()">
+      <span class="mr-2">Sign out</span>
     </v-btn>
 
     <!-- Authentication<v-btn text class="lime--text text--lighten-1">
@@ -27,7 +27,7 @@
   </v-app-bar>
 </template>
 <script>
-import TaskService from '@/services/TaskService.js';
+import TaskService from "@/services/TaskService.js";
 export default {
   methods: {
     signin() {
@@ -40,7 +40,14 @@ export default {
           console.dir(this.$store.state.user.email);
         })
         .catch((err) => console.error(err));
-    }
-  }
+    },
+    signout() {
+      TaskService.signout().then((res) => {
+        if (res.data.data) {
+          this.$router.push({ name: "home" });
+        }
+      });
+    },
+  },
 };
 </script>
