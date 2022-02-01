@@ -24,9 +24,8 @@ export default {
                     done
                     startTime
                     durationInMinutes
-                    estimatedEndTime
-                    actualEndTime
-                    breakEndTime
+                    estimatedDurationInMinutes
+                    breakDurationInMinutes
                 }
             }`,
     });
@@ -42,9 +41,8 @@ export default {
                     done
                     startTime
                     durationInMinutes
-                    estimatedEndTime
-                    actualEndTime
-                    breakEndTime
+                    estimatedDurationInMinutes
+                    breakDurationInMinutes
                 }
             }`,
       variables: { id: Number(id) },
@@ -77,13 +75,13 @@ export default {
       query: `mutation CreateTask(
                 $title: String!
                 $description: String!
-                $durationInMinutes: Int!
+                $estimatedDurationInMinutes: Int!
                 $userId: ID!
                 ){
                   createNewTask(newTaskParams:{
                     title: $title
                     description: $description
-                    durationInMinutes: $durationInMinutes
+                    estimatedDurationInMinutes: $estimatedDurationInMinutes
                     userId: $userId
                   }){
                     id
@@ -92,14 +90,13 @@ export default {
                     description
                     done
                     startTime
-                    estimatedEndTime
-                    actualEndTime
-                    breakEndTime
+                    estimatedDurationInMinutes
+                    breakDurationInMinutes
                   }
                 }`,
       variables: {
         ...task,
-        durationInMinutes: parseInt(task.durationInMinutes),
+        estimatedDurationInMinutes: parseInt(task.estimatedDurationInMinutes),
       },
     });
   },

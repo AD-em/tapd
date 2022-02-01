@@ -27,7 +27,7 @@
         outlined
         label="Estimated Duration"
         prepend-inner-icon="mdi-timer-sand"
-        v-model="task.durationInMinutes"
+        v-model="task.estimatedDurationInMinutes"
       />
       <v-btn class="lime" type="submit">Save</v-btn>
     </v-form>
@@ -40,7 +40,7 @@ export default {
     task: {
       title: '',
       description: '',
-      durationInMinutes: ''
+      estimatedDurationInMinutes: ''
     }
   }),
   created() {
@@ -54,7 +54,7 @@ export default {
         userId,
         title: '',
         description: '',
-        durationInMinutes: ''
+        estimatedDurationInMinutes: ''
       };
     },
     submitTask() {
