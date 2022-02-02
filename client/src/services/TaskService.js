@@ -100,4 +100,29 @@ export default {
       },
     });
   },
+  finalizeTask(task) {
+    return AxiosService.post("/", {
+      query: `mutation FinalizeTask(
+        $id: ID!
+        $startTime: DateTime!
+        $durationInMinutes: Int!
+        $breakDurationInMinutes: Int!
+      ) {
+        finalizeTask(
+          finalizeTaskParams: {
+            id: $id
+            done: true
+            startTime: $startTime
+            durationInMinutes: $durationInMinutes
+            breakDurationInMinutes: $breakDurationInMinutes
+          }
+        ) {
+          id
+          title
+        }
+      }
+      `,
+      variables: { ...task },
+    });
+  },
 };
