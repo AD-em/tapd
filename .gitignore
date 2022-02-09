@@ -3,3 +3,7 @@ node_modules/
 
 # vue build directory -- configured inside ./client/vue.config.js
 server/public/
+
+# dotenv environment variables file
+.env
+.env.production
