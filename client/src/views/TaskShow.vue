@@ -11,14 +11,14 @@
       </h3>
       <h3>{{ localTask.title }}</h3>
       <v-spacer></v-spacer>
-      <v-btn icon><v-icon>mdi-pencil</v-icon></v-btn>
+      <!-- <v-btn icon><v-icon>mdi-pencil</v-icon></v-btn> -->
     </v-card-title>
     <v-divider></v-divider>
     <v-card-subtitle>
       <p class="text-left">{{ localTask.description }}</p>
     </v-card-subtitle>
     <v-divider></v-divider>
-    <v-card-text>
+    <v-card-text v-if="localTask.done">
       <v-row>
         <v-col>
           <h5>Expected Duration</h5>
@@ -41,10 +41,14 @@
         </v-col>
       </v-row>
     </v-card-text>
+    <div v-else>
+      <Timer :task="localTask" class="mb-6"/>
+    </div>
   </v-card>
 </template>
 <script>
 import TaskService from '@/services/TaskService.js';
+import Timer from '@/components/Timer.vue';
 import moment from 'moment';
 export default {
   name: 'TaskShow',
@@ -67,9 +71,12 @@ export default {
   data: () => ({
     localTask: undefined
   }),
-  created() {
+  components: {
+    Timer
+    },
+  async created() {
     if (this.task.id == 'defaultId') {
-      TaskService.getTask(this.$route.params.id).then(
+      await TaskService.getTask(this.$route.params.id).then(
         (res) => (this.localTask = res.data.data.getTask)
       );
     } else {

@@ -1,11 +1,10 @@
 import axios from "axios";
 
 const AxiosService = axios.create({
-  // baseURL: 'http://localhost:/graphql',
   baseURL:
     process.env.NODE_ENV === "production"
       ? `${process.env.HOSTNAME}/graphql`
-      : "http://localhost:3000/graphql",
+      : "http://localhost:1881/graphql",
   withCredentials: true,
   headers: {
     Accept: "application/json",
@@ -24,9 +23,9 @@ export default {
                     description
                     done
                     startTime
-                    estimatedEndTime
-                    actualEndTime
-                    breakEndTime
+                    durationInMinutes
+                    estimatedDurationInMinutes
+                    breakDurationInMinutes
                 }
             }`,
     });
@@ -41,9 +40,9 @@ export default {
                     description
                     done
                     startTime
-                    estimatedEndTime
-                    actualEndTime
-                    breakEndTime
+                    durationInMinutes
+                    estimatedDurationInMinutes
+                    breakDurationInMinutes
                 }
             }`,
       variables: { id: Number(id) },
@@ -66,18 +65,23 @@ export default {
       },
     });
   },
+  signout(){
+    return AxiosService.post('/' ,{
+      query: `mutation { signout }`
+    })
+  },
   saveTask(task) {
     return AxiosService.post("/", {
       query: `mutation CreateTask(
                 $title: String!
                 $description: String!
-                $durationInMinutes: Int!
+                $estimatedDurationInMinutes: Int!
                 $userId: ID!
                 ){
                   createNewTask(newTaskParams:{
                     title: $title
                     description: $description
-                    durationInMinutes: $durationInMinutes
+                    estimatedDurationInMinutes: $estimatedDurationInMinutes
                     userId: $userId
                   }){
                     id
@@ -86,15 +90,39 @@ export default {
                     description
                     done
                     startTime
-                    estimatedEndTime
-                    actualEndTime
-                    breakEndTime
+                    estimatedDurationInMinutes
+                    breakDurationInMinutes
                   }
                 }`,
       variables: {
         ...task,
-        durationInMinutes: parseInt(task.durationInMinutes),
+        estimatedDurationInMinutes: parseInt(task.estimatedDurationInMinutes),
       },
+    });
+  },
+  finalizeTask(task) {
+    return AxiosService.post("/", {
+      query: `mutation FinalizeTask(
+        $id: ID!
+        $startTime: DateTime!
+        $durationInMinutes: Int!
+        $breakDurationInMinutes: Int!
+      ) {
+        finalizeTask(
+          finalizeTaskParams: {
+            id: $id
+            done: true
+            startTime: $startTime
+            durationInMinutes: $durationInMinutes
+            breakDurationInMinutes: $breakDurationInMinutes
+          }
+        ) {
+          id
+          title
+        }
+      }
+      `,
+      variables: { ...task },
     });
   },
 };

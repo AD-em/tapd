@@ -33,26 +33,24 @@ type Task {
   done: Boolean!
   durationInMinutes: Int!
   startTime: DateTime
-  estimatedEndTime: DateTime
-  actualEndTime: DateTime
-  breakEndTime: DateTime
-  estimatedWorkDurationToActualWorkDurationRatio: Float
+  estimatedDurationInMinutes: Int
+  breakDurationInMinutes: Int
   User: User
 }
 
 input TaskCreateInput {
   title: String!
   description: String!
-  durationInMinutes: Int!
+  estimatedDurationInMinutes: Int!
   userId: ID!
 }
 
 input TaskFinalizeInput {
   id: ID!
   done: Boolean!
-  actualEndTime: DateTime!
-  breakEndTime: DateTime!
-  estimatedWorkDurationToActualWorkDurationRatio: Float!
+  startTime: DateTime!
+  durationInMinutes: Int!
+  breakDurationInMinutes: Int!
 }
 
 input UserInput {
